@@ -14,7 +14,7 @@ func main() {
 	query := os.Args[2]
 
 	switch cmd {
-	case "whatport":
+	case "whatport", "wp":
 		fmt.Println(internal.WhatPort(query))
 	default:
 		fmt.Printf("Command '%s' not recognized\n", cmd)
