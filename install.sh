@@ -6,7 +6,7 @@ set -e
 # -----------------------
 GITHUB_USER="halofmayor"
 REPO="htk"
-VERSION="v1.0-alpha"
+VERSION="v1.1-alpha"
 
 # Detects OS
 OS=$(uname -s)
@@ -36,7 +36,6 @@ BIN_NAME="htk-$OS_NAME-$ARCH_NAME"
 
 # Binary URL
 URL="https://github.com/$GITHUB_USER/$REPO/releases/download/$VERSION/$BIN_NAME"
-
 
 # ---------------------
 # Download and install
