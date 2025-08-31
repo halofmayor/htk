@@ -49,14 +49,14 @@ var ports = map[int][2]string{
 
 var helpText = `whatport is a tool that makes Port <-> Service lookup
 
-				whatport supports the following commands:
+whatport supports the following commands:
 
-				Usage:
-				htk whatport <port>        : Returns the service for that port (TCP/UDP)
-				htk whatport <service>     : Returns the port of that service (TCP/UDP)
-				htk whatport tcp <port>    : Returns the service for that TCP port
-				htk whatport udp <port>    : Returns the service for that UDP port
-				`
+Usage:
+htk whatport <port>        : Returns the service for that port (TCP/UDP)
+htk whatport <service>     : Returns the port of that service (TCP/UDP)
+htk whatport tcp <port>    : Returns the service for that TCP port
+htk whatport udp <port>    : Returns the service for that UDP port
+`
 
 func WhatPort(query string) string {
 	query = strings.TrimSpace(strings.ToLower(query))
@@ -81,7 +81,6 @@ func WhatPort(query string) string {
 
 	target := parts[0]
 
-	// Tenta converter para número de porta
 	if port, err := strconv.Atoi(target); err == nil {
 		if svc, ok := ports[port]; ok {
 			out := []string{}
@@ -103,6 +102,7 @@ func WhatPort(query string) string {
 		return "Port not found."
 	}
 
+	// Busca reversa: nome do serviço -> porta
 	for port, svc := range ports {
 		tcpName := strings.ToLower(svc[0])
 		udpName := strings.ToLower(svc[1])

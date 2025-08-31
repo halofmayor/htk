@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/halofmayor/htk/internal"
 )
@@ -25,34 +26,25 @@ Options:
 
 func main() {
 
-	if len(os.Args) < 2 {
-		fmt.Println("Missing command. Use: htk -h for help")
-		os.Exit(1)
-	}
-
-	// Help geral
-	if os.Args[1] == "-h" || os.Args[1] == "--help" {
-		fmt.Println(`HTK - Toolset
-Usage:
-htk <command> [options]
-
-whatport : Check ports and services.
-Available commands:
-`)
+	args := os.Args[1:] // ignora "htk"
+	if len(args) == 0 || args[0] == "-h" || args[0] == "--help" {
+		fmt.Println("HTK - Halof ToolKit\n\nUse 'htk whatport -h' for help on the whatport module.")
 		return
 	}
 
-	cmd := os.Args[1]
-	query := os.Args[2]
-
-	switch cmd {
-	case "-h", "--help":
-		Help()
-		return
+	switch args[0] {
 	case "whatport", "wp":
+		query := ""
+		if len(args) > 1 {
+			query = args[1:]
+			queryStr := ""
+			for i := 1; i < len(args); i++ {
+				queryStr += args[i] + " "
+			}
+			query = queryStr
+		}
 		fmt.Println(internal.WhatPort(query))
-		return
 	default:
-		fmt.Printf("Command '%s' not recognized.\n", cmd)
+		fmt.Println("Unknown command. Use 'htk -h'")
 	}
 }
