@@ -31,11 +31,12 @@ else
     exit 1
 fi
 
-# Binary name
-BIN_NAME="htk-$OS_NAME"
+# Binary name 
+BIN_NAME="htk-$OS_NAME-$ARCH_NAME"
 
 # Binary URL
 URL="https://github.com/$GITHUB_USER/$REPO/releases/download/$VERSION/$BIN_NAME"
+
 
 # ---------------------
 # Download and install
