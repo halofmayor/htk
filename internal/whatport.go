@@ -59,21 +59,11 @@ var helpText = `whatport is a tool that makes Port <-> Service lookup
 				`
 
 func WhatPort(query string) string {
-	query = strings.ToLower(query)
-
+	query = strings.TrimSpace(strings.ToLower(query))
 	parts := strings.Fields(query)
-	if len(parts) == 0 {
-		return helpText
-	}
 
-	if parts[0] == "-h" || parts[0] == "--help" {
+	if len(parts) == 0 || parts[0] == "-h" || parts[0] == "--help" {
 		return helpText
-	}
-
-	// Fix common typos
-	aliases := map[string]string{"tpc": "tcp", "udb": "udp", "upd": "udp"}
-	for k, v := range aliases {
-		query = strings.ReplaceAll(query, k, v)
 	}
 
 	index := -1
@@ -85,36 +75,46 @@ func WhatPort(query string) string {
 		parts = parts[1:]
 	}
 
-	query = strings.Join(parts, " ")
+	if len(parts) == 0 {
+		return "Please provide a port number or service name."
+	}
 
-	if port, err := strconv.Atoi(query); err == nil {
+	target := parts[0]
+
+	// Tenta converter para número de porta
+	if port, err := strconv.Atoi(target); err == nil {
 		if svc, ok := ports[port]; ok {
-			if index == -1 {
-				parts := []string{}
+			out := []string{}
+			if index == -1 || index == 0 {
 				if svc[0] != "" {
-					parts = append(parts, "TCP: "+svc[0])
+					out = append(out, "TCP: "+svc[0])
 				}
+			}
+			if index == -1 || index == 1 {
 				if svc[1] != "" {
-					parts = append(parts, "UDP: "+svc[1])
+					out = append(out, "UDP: "+svc[1])
 				}
-				return strings.Join(parts, ", ")
-			} else if index == 0 && svc[0] != "" {
-				return "TCP: " + svc[0]
-			} else if index == 1 && svc[1] != "" {
-				return "UDP: " + svc[1]
-			} else {
+			}
+			if len(out) == 0 {
 				return "Service not found."
 			}
+			return strings.Join(out, ", ")
 		}
 		return "Port not found."
-	} else {
-		for port, svc := range ports {
-			if (index == -1 && (strings.ToLower(svc[0]) == query || strings.ToLower(svc[1]) == query)) ||
-				(index == 0 && strings.ToLower(svc[0]) == query) ||
-				(index == 1 && strings.ToLower(svc[1]) == query) {
-				return fmt.Sprintf("Port: %d", port)
-			}
-		}
-		return "Service not found."
 	}
+
+	for port, svc := range ports {
+		tcpName := strings.ToLower(svc[0])
+		udpName := strings.ToLower(svc[1])
+
+		if index == -1 && (tcpName == target || udpName == target) {
+			return fmt.Sprintf("Port: %d", port)
+		} else if index == 0 && tcpName == target {
+			return fmt.Sprintf("Port: %d", port)
+		} else if index == 1 && udpName == target {
+			return fmt.Sprintf("Port: %d", port)
+		}
+	}
+
+	return "Service not found."
 }
