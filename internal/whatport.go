@@ -47,48 +47,72 @@ var ports = map[int][2]string{
 	1099: {"RMI Registry", ""},      // TCP
 }
 
-var services = func() map[[2]string][]int {
-	m := make(map[[2]string][]int)
-	for port, svc := range ports {
-		m[svc] = append(m[svc], port)
-	}
-	return m
-}()
+var helpText = `whatport is a tool that makes Port <-> Service lookup
+
+				whatport supports the following commands:
+
+				Usage:
+				htk whatport <port>        : Returns the service for that port (TCP/UDP)
+				htk whatport <service>     : Returns the port of that service (TCP/UDP)
+				htk whatport tcp <port>    : Returns the service for that TCP port
+				htk whatport udp <port>    : Returns the service for that UDP port
+				`
 
 func WhatPort(query string) string {
 	query = strings.ToLower(query)
-	index := -1 //-1 Means both tcp and udp
 
-	if strings.Contains(query, "tcp") && !strings.Contains(query, "udp") {
-		index = 0
-	} else if strings.Contains(query, "udp") && !strings.Contains(query, "tcp") {
-		index = 1
+	parts := strings.Fields(query)
+	if len(parts) == 0 {
+		return helpText
 	}
 
-	//Removes the tcp and upd from the query if it exists
-	query = strings.ReplaceAll(query, "tcp", "")
-	query = strings.ReplaceAll(query, "udp", "")
-	query = strings.TrimSpace(query)
+	if parts[0] == "-h" || parts[0] == "--help" {
+		return helpText
+	}
 
-	//If port
+	// Fix common typos
+	aliases := map[string]string{"tpc": "tcp", "udb": "udp", "upd": "udp"}
+	for k, v := range aliases {
+		query = strings.ReplaceAll(query, k, v)
+	}
+
+	index := -1
+	if parts[0] == "tcp" {
+		index = 0
+		parts = parts[1:]
+	} else if parts[0] == "udp" {
+		index = 1
+		parts = parts[1:]
+	}
+
+	query = strings.Join(parts, " ")
+
 	if port, err := strconv.Atoi(query); err == nil {
 		if svc, ok := ports[port]; ok {
 			if index == -1 {
-				return fmt.Sprintf("TCP: %s, UDP: %s", svc[0], svc[1])
-			} else if index == 0 {
-				return fmt.Sprintf("TCP: %s", svc[0])
+				parts := []string{}
+				if svc[0] != "" {
+					parts = append(parts, "TCP: "+svc[0])
+				}
+				if svc[1] != "" {
+					parts = append(parts, "UDP: "+svc[1])
+				}
+				return strings.Join(parts, ", ")
+			} else if index == 0 && svc[0] != "" {
+				return "TCP: " + svc[0]
+			} else if index == 1 && svc[1] != "" {
+				return "UDP: " + svc[1]
 			} else {
-				return fmt.Sprintf("UDP: %s", svc[1])
+				return "Service not found."
 			}
-		} else {
-			return "Port not found."
 		}
+		return "Port not found."
 	} else {
 		for port, svc := range ports {
-			if (index == -1 && strings.ToLower(svc[0]) == query || strings.ToLower(svc[1]) == query) ||
+			if (index == -1 && (strings.ToLower(svc[0]) == query || strings.ToLower(svc[1]) == query)) ||
 				(index == 0 && strings.ToLower(svc[0]) == query) ||
 				(index == 1 && strings.ToLower(svc[1]) == query) {
-				return fmt.Sprintf("Porta: %d", port)
+				return fmt.Sprintf("Port: %d", port)
 			}
 		}
 		return "Service not found."
