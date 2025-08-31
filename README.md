@@ -1,3 +1,4 @@
+![HTK Logo](assets/logo.png)
 # HTK - Halof ToolKit
 
 A wrapper written in Go for beginners in cybersecurity.  

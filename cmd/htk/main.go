@@ -36,15 +36,11 @@ func main() {
 	case "whatport", "wp":
 		query := ""
 		if len(args) > 1 {
-			query = args[1:]
-			queryStr := ""
-			for i := 1; i < len(args); i++ {
-				queryStr += args[i] + " "
-			}
-			query = queryStr
+			query = strings.Join(args[1:], " ")
 		}
 		fmt.Println(internal.WhatPort(query))
 	default:
 		fmt.Println("Unknown command. Use 'htk -h'")
 	}
+
 }
