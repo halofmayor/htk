@@ -1,11 +1,14 @@
 package internal
 
 import (
+	"embed"
 	"encoding/json"
 	"fmt"
-	"os"
 	"strings"
 )
+
+//go:embed protocolJSONs/**/*.JSON
+var protocolFiles embed.FS
 
 type Handshake struct {
 	Description string   `json:"description"`
@@ -125,11 +128,10 @@ func ProtocolInfo(query string) string {
 		return fmt.Sprintf("Error: unknown protocol '%s'", protocolName)
 	}
 
-	fileName := fmt.Sprintf("internal/protocolinfo/protocolJSONs/%s/%s.JSON", category, strings.ToUpper(protocolName))
-
-	data, err := os.ReadFile(fileName)
+	filePath := fmt.Sprintf("protocolJSONs/%s/%s.JSON", category, strings.ToUpper(protocolName))
+	data, err := protocolFiles.ReadFile(filePath)
 	if err != nil {
-		return fmt.Sprintf("Error reading file %s: %v", fileName, err)
+		return fmt.Sprintf("Error reading embedded file %s: %v", filePath, err)
 	}
 
 	var protocol Protocol

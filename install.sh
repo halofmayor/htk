@@ -34,7 +34,6 @@ fi
 # ---------------------
 # Binary selection
 # ---------------------
-# Certifique-se de que os b5t5inários na Release tenham estes nomes:
 # htk-linux-amd64, htk-macos-amd64, htk-macos-arm64
 BIN_NAME="htk-$OS_NAME-$ARCH_NAME"
 URL="https://github.com/$GITHUB_USER/$REPO/releases/download/$VERSION/$BIN_NAME"
@@ -45,7 +44,6 @@ URL="https://github.com/$GITHUB_USER/$REPO/releases/download/$VERSION/$BIN_NAME"
 echo "Downloading HTK from $URL ..."
 curl -L -o /tmp/htk "$URL"
 
-# Verifica se o download produziu um binário válido
 if ! file /tmp/htk | grep -qE 'executable'; then
     echo "Downloaded file is not a valid binary. Please check the Release."
     exit 1
