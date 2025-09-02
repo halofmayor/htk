@@ -1,0 +1,60 @@
+1. Data Transport Protocols
+
+TCP (Transmission Control Protocol) [X]
+
+UDP (User Datagram Protocol) [X]
+
+SCTP (Stream Control Transmission Protocol) [X]
+
+DCCP (Datagram Congestion Control Protocol) [X]
+
+QUIC (Quick UDP Internet Connections) [X]
+
+2. Application Protocols 
+
+HTTP / HTTPS (HyperText Transfer Protocol / Secure) [X]
+
+FTP / FTPS (File Transfer Protocol / Secure) [X]
+
+SFTP (SSH File Transfer Protocol) [X]
+
+TFTP (Trivial File Transfer Protocol) [X]
+
+SMTP, POP3, IMAP (email; secure versions STARTTLS, SSL/TLS) [X]
+
+DNS / DNSSEC (Domain Name System / com segurança) [X]
+
+NFS (Network File System) [X]
+
+SMB / CIFS (Server Message Block, usado no Windows para partilha de ficheiros) [X]
+
+SNMPv3 (Simple Network Management Protocol, versão segura) [X]
+
+MQTT, AMQP, XMPP (mensageria/dados IoT) [X]
+
+
+3. Security and Cryptography protocols
+
+TLS (Transport Layer Security) – sucessor do SSL [X]
+ 
+SSL (Secure Sockets Layer) – obsoleto [X]
+
+IPsec (Internet Protocol Security) – usado em VPNs, modo AH e ESP [X]
+
+IKEv2 (Internet Key Exchange v2) – para IPsec [X]
+
+SSH (Secure Shell) – usado para administração remota e tunelamento [X]
+
+Kerberos – autenticação em redes corporativas [X]
+
+RADIUS / Diameter – autenticação e autorização [X]
+
+OAuth 2.0 / OpenID Connect – autenticação/autorização em APIs [X]
+
+S/MIME, PGP – para e-mail seguro [X]
+
+DTLS (Datagram TLS) – versão de TLS para UDP [X]
+
+SRTP (Secure Real-Time Transport Protocol) – para voz/vídeo em tempo real [ ]
+
+WireGuard – protocolo moderno de VPN [ ]

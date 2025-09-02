@@ -1,0 +1,54 @@
+{
+  "name": "Internet Message Access Protocol",
+  "shortName": "IMAP",
+  "summary": "A protocol for accessing and managing email on a mail server. Unlike POP3, IMAP allows clients to view and manipulate messages without downloading them locally.",
+  "layer": "Application",
+  "ports": [143, 993],
+  "rfcs": ["RFC 3501"],
+
+  "purpose": "Enable clients to access, read, and manage emails directly on the server, supporting folders and synchronization",
+
+  "handshake": {
+    "description": "IMAP establishes a TCP connection and authenticates the client before allowing access to mailboxes.",
+    "steps": [
+      "Step 1: Client connects to server (port 143 or 993 for IMAPS).",
+      "Step 2: Server sends greeting (* OK).",
+      "Step 3: Client authenticates using LOGIN or AUTHENTICATE command.",
+      "Step 4: Client selects mailbox (SELECT or EXAMINE), fetches messages (FETCH), marks messages (STORE), and can manage folders (CREATE, DELETE).",
+      "Step 5: Session ends with LOGOUT command."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Command / Response",
+      "type": "Text",
+      "description": "IMAP commands from client and responses from server"
+    },
+    {
+      "name": "Email Data",
+      "type": "Text",
+      "description": "Headers, body, and flags for emails accessed or manipulated on server"
+    }
+  ],
+
+  "message": {
+    "unit": "IMAP transaction",
+    "structure": {
+      "header": "IMAP command or server response",
+      "payload": "Email headers, body, and flags"
+    }
+  },
+
+  "usage": [
+    "Accessing emails from multiple devices while keeping them on the server",
+    "Server-side folder and message management",
+    "Synchronization of email state across clients"
+  ],
+
+  "pitfalls": [
+    "Requires more server resources than POP3",
+    "No encryption unless using IMAPS (port 993)",
+    "More complex protocol, harder to debug than POP3"
+  ]
+}

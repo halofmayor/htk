@@ -1,0 +1,63 @@
+{
+  "name": "Transport Layer Security",
+  "shortName": "TLS",
+  "summary": "A cryptographic protocol designed to provide secure communication over a computer network. TLS encrypts data, ensures integrity, and authenticates endpoints. It is widely used to secure web traffic, email, and other communications.",
+  "layer": "Application (runs over TCP)",
+  "ports": [],
+  "rfcs": ["RFC 8446 (TLS 1.3)", "RFC 5246 (TLS 1.2)"],
+
+  "purpose": "Ensure confidentiality, integrity, and authentication for data transmitted over insecure networks",
+
+  "handshake": {
+    "description": "TLS uses a handshake protocol to negotiate encryption algorithms, exchange keys, and authenticate parties.",
+    "steps": [
+      "Step 1: ClientHello – client proposes TLS version, cipher suites, and sends a random number.",
+      "Step 2: ServerHello – server selects TLS version, cipher suite, sends its certificate, and server random.",
+      "Step 3: Key Exchange – client and server exchange keying material to derive session keys.",
+      "Step 4: Finished – both sides confirm that the handshake was successful and encryption keys are ready for use."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Record Header",
+      "type": "5 bytes",
+      "description": "Specifies content type, version, and length of the TLS record"
+    },
+    {
+      "name": "Handshake Messages",
+      "type": "Variable length",
+      "description": "Contains messages exchanged during handshake (ClientHello, ServerHello, Certificate, Finished, etc.)"
+    },
+    {
+      "name": "Ciphertext",
+      "type": "Variable length",
+      "description": "Encrypted payload data using negotiated cipher suite"
+    },
+    {
+      "name": "MAC / Authentication Tag",
+      "type": "Variable length",
+      "description": "Ensures data integrity and authenticity"
+    }
+  ],
+
+  "message": {
+    "unit": "TLS record",
+    "structure": {
+      "header": "Record Header",
+      "payload": "Handshake messages or encrypted application data"
+    }
+  },
+
+  "usage": [
+    "Securing HTTPS connections",
+    "Email encryption (SMTP, IMAP, POP3 over TLS)",
+    "VPNs and other secure network communications"
+  ],
+
+  "pitfalls": [
+    "Requires proper certificate validation",
+    "Misconfigured cipher suites can weaken security",
+    "Older versions (SSL, TLS 1.0/1.1) are considered insecure"
+  ]
+}

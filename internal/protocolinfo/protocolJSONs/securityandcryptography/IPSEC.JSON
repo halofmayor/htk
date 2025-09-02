@@ -1,0 +1,62 @@
+{
+  "name": "Internet Protocol Security",
+  "shortName": "IPsec",
+  "summary": "A suite of protocols to secure Internet Protocol (IP) communications by authenticating and encrypting each IP packet in a communication session. IPsec provides confidentiality, integrity, and authentication at the network layer.",
+  "layer": "Network",
+  "ports": [],
+  "rfcs": ["RFC 4301", "RFC 4302", "RFC 4303"],
+
+  "purpose": "Protect IP communications with encryption, authentication, and anti-replay mechanisms",
+
+  "handshake": {
+    "description": "IPsec itself relies on IKE (Internet Key Exchange) for establishing Security Associations (SAs). No handshake occurs at the IP layer; the handshake is managed via IKE.",
+    "steps": [
+      "Step 1: Security Association (SA) negotiation via IKE.",
+      "Step 2: IPsec tunnel or transport mode established.",
+      "Step 3: Encrypted and/or authenticated IP packets are transmitted according to SA parameters."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Security Parameters Index (SPI)",
+      "type": "32-bit field",
+      "description": "Identifies a particular IPsec Security Association"
+    },
+    {
+      "name": "Sequence Number",
+      "type": "32-bit field",
+      "description": "Monotonically increasing number to prevent replay attacks"
+    },
+    {
+      "name": "Payload Data",
+      "type": "Variable length",
+      "description": "The encrypted or authenticated IP packet payload"
+    },
+    {
+      "name": "Next Header / Protocol",
+      "type": "8-bit field",
+      "description": "Specifies the type of encapsulated payload (ESP, AH, or other protocol)"
+    }
+  ],
+
+  "message": {
+    "unit": "IPsec packet",
+    "structure": {
+      "header": "SPI, Sequence Number, Next Header/Protocol",
+      "payload": "Encrypted and/or authenticated IP payload"
+    }
+  },
+
+  "usage": [
+    "Virtual Private Networks (VPNs)",
+    "Secure site-to-site and remote access communications",
+    "Protecting sensitive IP traffic over untrusted networks"
+  ],
+
+  "pitfalls": [
+    "Requires proper configuration of SAs and keys",
+    "Complexity in managing multiple policies and tunnels",
+    "Performance overhead due to encryption and authentication"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "name": "Kerberos",
+  "shortName": "Kerberos",
+  "summary": "A network authentication protocol that uses secret-key cryptography to allow nodes to securely authenticate over an insecure network. Widely used in enterprise networks.",
+  "layer": "Application",
+  "ports": [88, 464],
+  "rfcs": ["RFC 4120"],
+
+  "purpose": "Provide secure authentication for users and services in a networked environment without transmitting passwords over the network",
+
+  "handshake": {
+    "description": "Kerberos uses tickets and a trusted Key Distribution Center (KDC) to authenticate clients and servers.",
+    "steps": [
+      "Step 1: Client requests a Ticket Granting Ticket (TGT) from the Authentication Server (AS) on port 88.",
+      "Step 2: AS verifies client credentials and issues TGT.",
+      "Step 3: Client requests a service ticket from the Ticket Granting Server (TGS) using TGT.",
+      "Step 4: TGS issues service ticket for the requested service.",
+      "Step 5: Client presents service ticket to the target service to gain authenticated access."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Ticket",
+      "type": "Encrypted structure",
+      "description": "Contains session key, client ID, service ID, timestamps, and lifetime information"
+    },
+    {
+      "name": "Authenticator",
+      "type": "Encrypted structure",
+      "description": "Provides proof of client identity and freshness of the request"
+    },
+    {
+      "name": "Session Key",
+      "type": "Secret key",
+      "description": "Used to encrypt and authenticate messages between client and service"
+    },
+    {
+      "name": "Timestamp / Lifetime",
+      "type": "Time values",
+      "description": "Ensures ticket validity and prevents replay attacks"
+    }
+  ],
+
+  "message": {
+    "unit": "Kerberos message",
+    "structure": {
+      "header": "Ticket, Authenticator",
+      "payload": "Session key and service-specific information"
+    }
+  },
+
+  "usage": [
+    "Single sign-on (SSO) in enterprise networks",
+    "Authentication for network services (file shares, email, databases)",
+    "Secure authentication without transmitting plaintext passwords"
+  ],
+
+  "pitfalls": [
+    "Clock skew between client and server can cause authentication failures",
+    "Compromise of KDC compromises entire network security",
+    "Complex configuration and maintenance in large networks"
+  ]
+}

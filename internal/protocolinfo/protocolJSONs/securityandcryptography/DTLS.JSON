@@ -1,0 +1,75 @@
+{
+  "name": "Datagram Transport Layer Security",
+  "shortName": "DTLS",
+  "summary": "A protocol that provides communications privacy for datagram protocols. DTLS is based on TLS and is designed to secure UDP traffic, providing confidentiality, integrity, and authentication.",
+  "layer": "Transport / Application",
+  "ports": [],
+  "rfcs": ["RFC 6347"],
+
+  "purpose": "Secure UDP-based communications, preventing eavesdropping, tampering, and message forgery",
+
+  "handshake": {
+    "description": "DTLS performs a handshake similar to TLS but adapted to handle message loss and reordering inherent to UDP.",
+    "steps": [
+      "Step 1: Client sends ClientHello message with supported cipher suites and random value.",
+      "Step 2: Server responds with ServerHello, selecting cipher suite and sending its certificate.",
+      "Step 3: Server may send ServerKeyExchange if required by the selected cipher.",
+      "Step 4: Client verifies server certificate and sends ClientKeyExchange.",
+      "Step 5: Both client and server exchange Finished messages to confirm handshake completion.",
+      "Step 6: Encrypted datagram communication begins."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Content Type",
+      "type": "1 byte",
+      "description": "Indicates the type of DTLS message (handshake, alert, application data, etc.)"
+    },
+    {
+      "name": "Version",
+      "type": "2 bytes",
+      "description": "Specifies the DTLS version"
+    },
+    {
+      "name": "Epoch",
+      "type": "2 bytes",
+      "description": "Counter for key changes to prevent replay attacks"
+    },
+    {
+      "name": "Sequence Number",
+      "type": "6 bytes",
+      "description": "Used to detect message loss and reorder packets"
+    },
+    {
+      "name": "Length",
+      "type": "2 bytes",
+      "description": "Length of the DTLS payload"
+    },
+    {
+      "name": "Payload",
+      "type": "Variable length",
+      "description": "Encrypted or authenticated application data or handshake message"
+    }
+  ],
+
+  "message": {
+    "unit": "DTLS record",
+    "structure": {
+      "header": "Content Type, Version, Epoch, Sequence Number, Length",
+      "payload": "Encrypted or authenticated application data or handshake message"
+    }
+  },
+
+  "usage": [
+    "Securing real-time applications over UDP (VoIP, video conferencing)",
+    "VPNs using UDP tunnels",
+    "Any application requiring TLS security but using datagram transport"
+  ],
+
+  "pitfalls": [
+    "Susceptible to packet loss and reordering inherent in UDP",
+    "Handshake retransmissions increase latency",
+    "Requires careful management of sequence numbers to avoid replay attacks"
+  ]
+}

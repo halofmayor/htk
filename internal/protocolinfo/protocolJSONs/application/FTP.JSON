@@ -1,0 +1,53 @@
+{
+  "name": "File Transfer Protocol",
+  "shortName": "FTP",
+  "summary": "A standard network protocol used to transfer files between a client and server on a computer network. FTP operates on the application layer and uses separate control and data connections.",
+  "layer": "Application",
+  "ports": [21, 20],
+  "rfcs": ["RFC 959"],
+
+  "purpose": "Enable reliable transfer of files between client and server in a networked environment",
+
+  "handshake": {
+    "description": "FTP establishes a control connection first, then opens separate data connections as needed.",
+    "steps": [
+      "Step 1: Client connects to server on port 21 (control connection).",
+      "Step 2: Client authenticates using username and password.",
+      "Step 3: Commands and responses are exchanged over the control connection.",
+      "Step 4: For file transfers, a separate data connection is opened (port 20 for active mode or negotiated port for passive mode)."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Command / Response",
+      "type": "ASCII text",
+      "description": "Commands sent by client and responses sent by server over the control connection"
+    },
+    {
+      "name": "Data",
+      "type": "Binary or ASCII",
+      "description": "File content transferred over the data connection"
+    }
+  ],
+
+  "message": {
+    "unit": "FTP message",
+    "structure": {
+      "header": "Command / Response",
+      "payload": "File data (over data connection)"
+    }
+  },
+
+  "usage": [
+    "Uploading and downloading files to/from a server",
+    "Website maintenance",
+    "File sharing between networked systems"
+  ],
+
+  "pitfalls": [
+    "Data and credentials sent in plain text (insecure)",
+    "Requires separate control and data connections, which can complicate firewall traversal",
+    "No encryption or integrity protection by default"
+  ]
+}

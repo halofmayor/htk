@@ -1,0 +1,67 @@
+{
+  "name": "Secure Real-time Transport Protocol",
+  "shortName": "SRTP",
+  "summary": "An extension of RTP (Real-time Transport Protocol) that provides encryption, message authentication, and integrity for real-time multimedia streams such as audio and video.",
+  "layer": "Application / Transport",
+  "ports": [],
+  "rfcs": ["RFC 3711"],
+
+  "purpose": "Secure real-time multimedia communications by providing confidentiality, integrity, and replay protection",
+
+  "handshake": {
+    "description": "SRTP relies on key management protocols like SDES, DTLS-SRTP, or MIKEY to establish shared encryption keys; it does not define its own handshake.",
+    "steps": [
+      "Step 1: Key exchange occurs via an external protocol (e.g., DTLS-SRTP or SDES).",
+      "Step 2: Both sender and receiver derive session keys for encryption and authentication.",
+      "Step 3: SRTP packets are sent, encrypted and authenticated using the derived keys."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Sequence Number",
+      "type": "16 bits",
+      "description": "Identifies the packet order and helps detect replay attacks"
+    },
+    {
+      "name": "Timestamp",
+      "type": "32 bits",
+      "description": "Used to synchronize and order the media stream"
+    },
+    {
+      "name": "SSRC",
+      "type": "32 bits",
+      "description": "Synchronization source identifier for the RTP stream"
+    },
+    {
+      "name": "Payload",
+      "type": "Variable length",
+      "description": "Encrypted multimedia data"
+    },
+    {
+      "name": "Authentication Tag",
+      "type": "Variable length",
+      "description": "Provides integrity and authenticity check for the packet"
+    }
+  ],
+
+  "message": {
+    "unit": "SRTP packet",
+    "structure": {
+      "header": "Sequence Number, Timestamp, SSRC",
+      "payload": "Encrypted multimedia data with authentication tag"
+    }
+  },
+
+  "usage": [
+    "Securing VoIP communications",
+    "Video conferencing",
+    "Real-time streaming with confidentiality and integrity"
+  ],
+
+  "pitfalls": [
+    "Requires proper key management",
+    "Does not provide its own handshake; depends on external key exchange",
+    "Packet loss may require RTP-level handling"
+  ]
+}

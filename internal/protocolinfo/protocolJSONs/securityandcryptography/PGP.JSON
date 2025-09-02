@@ -1,0 +1,64 @@
+{
+  "name": "Pretty Good Privacy",
+  "shortName": "PGP",
+  "summary": "A data encryption and decryption program that provides cryptographic privacy and authentication for data communication, primarily used for email. PGP combines symmetric-key cryptography and public-key cryptography.",
+  "layer": "Application",
+  "ports": [],
+  "rfcs": ["RFC 4880"],
+
+  "purpose": "Encrypt and sign messages to ensure confidentiality, integrity, and authentication",
+
+  "handshake": {
+    "description": "PGP operates per message; no continuous handshake occurs. Security relies on key pairs and trust in public keys.",
+    "steps": [
+      "Step 1: Sender obtains recipient's public key.",
+      "Step 2: Sender encrypts message using a randomly generated session key.",
+      "Step 3: The session key is encrypted with recipient's public key.",
+      "Step 4: Sender optionally signs the message with their private key.",
+      "Step 5: Recipient decrypts the session key with their private key and then decrypts the message, verifying the signature if present."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Literal Data Packet",
+      "type": "Variable length",
+      "description": "Contains the actual plaintext message"
+    },
+    {
+      "name": "Public-Key Encrypted Session Key Packet",
+      "type": "Variable length",
+      "description": "Encrypted session key used to decrypt the message"
+    },
+    {
+      "name": "Signature Packet",
+      "type": "Variable length",
+      "description": "Digital signature to verify sender authenticity"
+    },
+    {
+      "name": "Compressed Data Packet",
+      "type": "Variable length",
+      "description": "Optional compression of the message for efficiency"
+    }
+  ],
+
+  "message": {
+    "unit": "PGP message",
+    "structure": {
+      "header": "Packet headers indicating type (Literal, Encrypted Session Key, Signature, Compressed Data)",
+      "payload": "Encrypted or signed data"
+    }
+  },
+
+  "usage": [
+    "Email encryption and signing",
+    "File encryption for secure storage",
+    "Authentication of digital messages"
+  ],
+
+  "pitfalls": [
+    "Key management is critical for security",
+    "Users must trust public keys to avoid impersonation",
+    "Message size increases with encryption and signature overhead"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "Secure Sockets Layer",
+  "shortName": "SSL",
+  "summary": "A cryptographic protocol for securing network communication, predecessor of TLS. SSL provides encryption, integrity, and authentication but is now considered deprecated in favor of TLS.",
+  "layer": "Application (runs over TCP)",
+  "ports": [],
+  "rfcs": ["RFC 6101 (SSL 3.0)"],
+
+  "purpose": "Secure data transmission over networks, providing confidentiality, integrity, and authentication",
+
+  "handshake": {
+    "description": "SSL handshake is similar to TLS, involving version negotiation, key exchange, and authentication.",
+    "steps": [
+      "Step 1: ClientHello – client proposes SSL version, cipher suites, and sends random number.",
+      "Step 2: ServerHello – server selects version, cipher suite, and sends certificate.",
+      "Step 3: Key Exchange – client and server exchange keying material.",
+      "Step 4: Finished – handshake completion and secure session established."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Record Header",
+      "type": "5 bytes",
+      "description": "Contains content type, version, and length of the SSL record"
+    },
+    {
+      "name": "Handshake Messages",
+      "type": "Variable length",
+      "description": "Exchanged messages during handshake (ClientHello, ServerHello, Certificate, Finished, etc.)"
+    },
+    {
+      "name": "Ciphertext",
+      "type": "Variable length",
+      "description": "Encrypted application data using negotiated cipher"
+    },
+    {
+      "name": "MAC / Authentication Tag",
+      "type": "Variable length",
+      "description": "Ensures data integrity and authenticity"
+    }
+  ],
+
+  "message": {
+    "unit": "SSL record",
+    "structure": {
+      "header": "Record Header",
+      "payload": "Handshake messages or encrypted application data"
+    }
+  },
+
+  "usage": [
+    "Legacy HTTPS connections",
+    "Older email encryption methods",
+    "VPN and secure legacy protocols"
+  ],
+
+  "pitfalls": [
+    "SSL 2.0 and 3.0 are deprecated and insecure",
+    "Vulnerable to attacks like POODLE",
+    "Should be replaced by TLS in all modern applications"
+  ]
+}

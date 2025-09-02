@@ -1,0 +1,83 @@
+{
+  "name": "Diameter",
+  "shortName": "Diameter",
+  "summary": "An authentication, authorization, and accounting (AAA) protocol designed as the successor to RADIUS. Diameter provides enhanced reliability, security, and scalability.",
+  "layer": "Application",
+  "ports": [3868],
+  "rfcs": ["RFC 6733"],
+
+  "purpose": "Provide robust AAA services with improved security, reliability, and extensibility over RADIUS",
+
+  "handshake": {
+    "description": "Diameter establishes a reliable connection using TCP or SCTP and exchanges capabilities before sending requests and answers.",
+    "steps": [
+      "Step 1: Peer-to-peer connection is established over TCP or SCTP.",
+      "Step 2: Capabilities exchange (CER/CEA) occurs to negotiate features.",
+      "Step 3: Requests (AA-Request, Re-Auth-Request, Accounting-Request) and corresponding answers are exchanged.",
+      "Step 4: Session management and accounting occur until the session is terminated."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Version",
+      "type": "1 byte",
+      "description": "Protocol version number"
+    },
+    {
+      "name": "Message Length",
+      "type": "3 bytes",
+      "description": "Total length of the Diameter message"
+    },
+    {
+      "name": "Command Flags",
+      "type": "1 byte",
+      "description": "Indicates if the message is a request, proxiable, error, or retransmission"
+    },
+    {
+      "name": "Command Code",
+      "type": "3 bytes",
+      "description": "Specifies the type of Diameter message (authentication, authorization, accounting, etc.)"
+    },
+    {
+      "name": "Application ID",
+      "type": "4 bytes",
+      "description": "Specifies the Diameter application for the message"
+    },
+    {
+      "name": "Hop-by-Hop Identifier",
+      "type": "4 bytes",
+      "description": "Used to match requests and responses"
+    },
+    {
+      "name": "End-to-End Identifier",
+      "type": "4 bytes",
+      "description": "Detects duplicate messages"
+    },
+    {
+      "name": "AVPs (Attribute-Value Pairs)",
+      "type": "Variable length",
+      "description": "Contains authentication, authorization, accounting, or other data"
+    }
+  ],
+
+  "message": {
+    "unit": "Diameter message",
+    "structure": {
+      "header": "Version, Message Length, Command Flags, Command Code, Application ID, Hop-by-Hop ID, End-to-End ID",
+      "payload": "AVPs (Attribute-Value Pairs)"
+    }
+  },
+
+  "usage": [
+    "Authentication and authorization in mobile and enterprise networks",
+    "Accounting and billing",
+    "Replacement of RADIUS in high-reliability and large-scale environments"
+  ],
+
+  "pitfalls": [
+    "More complex than RADIUS; higher configuration overhead",
+    "Requires reliable transport (TCP or SCTP)",
+    "Misconfigured AVPs or applications can cause failures"
+  ]
+}

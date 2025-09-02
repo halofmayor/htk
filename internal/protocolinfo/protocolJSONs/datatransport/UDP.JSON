@@ -1,0 +1,57 @@
+{
+  "name": "User Datagram Protocol",
+  "shortName": "UDP",
+  "summary": "A connectionless transport protocol in the Internet protocol suite that allows applications to send messages without establishing a prior connection. Provides minimal transport service with no guarantees of delivery, order, or duplicate protection.",
+  "layer": "TCP/IP",
+  "ports": [],
+  "rfcs": ["RFC 768"],
+
+  "purpose": "Provide a simple, low-overhead, connectionless method for sending messages between applications on a network",
+
+  "handshake": {
+    "description": "UDP is connectionless and does not perform a handshake. Data is sent directly from sender to receiver without establishing a session.",
+    "steps": []
+  },
+
+  "fields": [
+    {
+      "name": "Source Port",
+      "type": "16-bit field",
+      "description": "Port of the sender (optional; can be 0)"
+    },
+    {
+      "name": "Destination Port",
+      "type": "16-bit field",
+      "description": "Port of the receiver"
+    },
+    {
+      "name": "Length",
+      "type": "16-bit field",
+      "description": "Specifies the length of the UDP header and payload in bytes"
+    },
+    {
+      "name": "Checksum",
+      "type": "16-bit field",
+      "description": "Used for error-checking of the header and payload (optional in IPv4, mandatory in IPv6)"
+    }
+  ],
+
+  "message": {
+    "unit": "Datagram",
+    "structure": {
+      "header": "Source Port, Destination Port, Length, Checksum",
+      "payload": "UDP payload (data carried by UDP)"
+    }
+  },
+
+  "usage": [
+    "Applications that require low latency and can tolerate packet loss, such as DNS queries, VoIP, video streaming, and online gaming"
+  ],
+
+  "pitfalls": [
+    "No delivery guarantee: packets can be lost or duplicated",
+    "No ordering: messages may arrive out of sequence",
+    "No built-in congestion control or flow control",
+    "No encryption or authentication by default"
+  ]
+}

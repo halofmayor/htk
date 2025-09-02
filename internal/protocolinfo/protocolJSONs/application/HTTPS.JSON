@@ -1,0 +1,48 @@
+{
+  "name": "Hypertext Transfer Protocol Secure",
+  "shortName": "HTTPS",
+  "summary": "An extension of HTTP that uses TLS (Transport Layer Security) to encrypt communication between client and server, providing privacy, integrity, and authentication.",
+  "layer": "Application",
+  "ports": [443],
+  "rfcs": ["RFC 2818", "RFC 5246 (TLS 1.2)", "RFC 8446 (TLS 1.3)"],
+
+  "purpose": "Provide secure communication for HTTP, ensuring confidentiality, integrity, and authentication between clients and servers",
+
+  "handshake": {
+    "description": "HTTPS relies on the TLS handshake before sending HTTP messages. This handshake establishes encryption keys and authenticates the server.",
+    "steps": [
+      "Step 1: ClientHello — the client sends supported cipher suites, TLS version, and random data.",
+      "Step 2: ServerHello — server selects cipher suite, sends certificate and server random data.",
+      "Step 3: ClientKeyExchange — client sends key material to establish shared secret.",
+      "Step 4: ChangeCipherSpec & Finished — both client and server confirm handshake and begin encrypted HTTP communication."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Encrypted Request / Response",
+      "type": "TLS-encrypted HTTP message",
+      "description": "Contains the HTTP headers and body, encrypted under the negotiated TLS session keys"
+    }
+  ],
+
+  "message": {
+    "unit": "TLS-encrypted HTTP message",
+    "structure": {
+      "header": "Encrypted HTTP headers",
+      "payload": "Encrypted HTTP body"
+    }
+  },
+
+  "usage": [
+    "Secure web browsing",
+    "APIs requiring authentication and privacy",
+    "E-commerce, online banking, and other confidential data exchange"
+  ],
+
+  "pitfalls": [
+    "Requires TLS certificate management",
+    "Slightly higher overhead than plain HTTP",
+    "Dependent on correct configuration to avoid security vulnerabilities (e.g., weak cipher suites)"
+  ]
+}

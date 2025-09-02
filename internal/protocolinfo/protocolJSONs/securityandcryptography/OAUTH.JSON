@@ -1,0 +1,69 @@
+{
+  "name": "Open Authorization",
+  "shortName": "OAuth",
+  "summary": "An open standard protocol for token-based authorization. OAuth allows third-party applications to access user resources on a server without exposing user credentials.",
+  "layer": "Application",
+  "ports": [],
+  "rfcs": ["RFC 6749 (OAuth 2.0)", "RFC 6750 (Bearer Tokens)"],
+
+  "purpose": "Enable secure delegated access to user resources without sharing credentials",
+
+  "handshake": {
+    "description": "OAuth involves obtaining an access token from an authorization server and using it to access protected resources.",
+    "steps": [
+      "Step 1: Client requests authorization from the resource owner (user).",
+      "Step 2: Authorization server authenticates user and issues an authorization grant (code, token, etc.).",
+      "Step 3: Client exchanges the authorization grant for an access token.",
+      "Step 4: Client uses the access token to request resources from the resource server.",
+      "Step 5: Resource server validates the token and returns requested resources."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Access Token",
+      "type": "String",
+      "description": "Token used to access protected resources"
+    },
+    {
+      "name": "Refresh Token",
+      "type": "String",
+      "description": "Optional token used to obtain a new access token after expiration"
+    },
+    {
+      "name": "Token Type",
+      "type": "String",
+      "description": "Specifies the type of token (usually 'Bearer')"
+    },
+    {
+      "name": "Scope",
+      "type": "String",
+      "description": "Defines the permissions granted by the access token"
+    },
+    {
+      "name": "Expiration",
+      "type": "Integer",
+      "description": "Time in seconds until the access token expires"
+    }
+  ],
+
+  "message": {
+    "unit": "OAuth message",
+    "structure": {
+      "header": "Authorization grant or token request",
+      "payload": "Access token, refresh token, scope, expiration"
+    }
+  },
+
+  "usage": [
+    "Delegated authorization for web and mobile applications",
+    "API access without sharing user credentials",
+    "Single Sign-On (SSO) scenarios in combination with OpenID Connect"
+  ],
+
+  "pitfalls": [
+    "Improper token storage can lead to security breaches",
+    "Access tokens must be validated and scope-restricted",
+    "Refresh tokens must be protected against theft"
+  ]
+}

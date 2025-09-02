@@ -1,0 +1,63 @@
+{
+  "name": "OpenID Connect",
+  "shortName": "OIDC",
+  "summary": "An identity layer built on top of OAuth 2.0. OpenID Connect allows clients to verify the identity of the user and obtain basic profile information in a secure manner.",
+  "layer": "Application",
+  "ports": [],
+  "rfcs": ["OpenID Connect Core 1.0"],
+
+  "purpose": "Provide authentication and identity verification for users, leveraging OAuth 2.0 authorization",
+
+  "handshake": {
+    "description": "OpenID Connect uses OAuth 2.0 flows to authenticate users and deliver ID tokens to the client.",
+    "steps": [
+      "Step 1: Client requests authentication from the OpenID Provider (OP) using OAuth 2.0 authorization code or implicit flow.",
+      "Step 2: OP authenticates the user and issues an ID token and optionally an access token.",
+      "Step 3: Client validates the ID token and retrieves user identity claims.",
+      "Step 4: Client uses access token to access protected resources if needed."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "ID Token",
+      "type": "JWT (JSON Web Token)",
+      "description": "Contains user identity information and claims"
+    },
+    {
+      "name": "Access Token",
+      "type": "String",
+      "description": "Used to access protected resources"
+    },
+    {
+      "name": "Refresh Token",
+      "type": "String",
+      "description": "Optional token for renewing access tokens"
+    },
+    {
+      "name": "Claims",
+      "type": "JSON",
+      "description": "User identity data such as name, email, and roles"
+    }
+  ],
+
+  "message": {
+    "unit": "OIDC message",
+    "structure": {
+      "header": "ID token, access token, optional refresh token",
+      "payload": "Claims and additional user information"
+    }
+  },
+
+  "usage": [
+    "Single Sign-On (SSO) for web and mobile apps",
+    "User authentication and identity verification",
+    "Integration with APIs while preserving user identity"
+  ],
+
+  "pitfalls": [
+    "ID tokens must be validated (signature, issuer, audience)",
+    "Misconfiguration of OAuth flows can lead to impersonation",
+    "Tokens must be transmitted securely over TLS"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "Trivial File Transfer Protocol",
+  "shortName": "TFTP",
+  "summary": "A simple, lightweight file transfer protocol used for transferring files between clients and servers. TFTP uses UDP for transport and provides minimal functionality, with no authentication or encryption.",
+  "layer": "Application",
+  "ports": [69],
+  "rfcs": ["RFC 1350", "RFC 2347", "RFC 2348", "RFC 2349"],
+
+  "purpose": "Provide simple file transfer in environments where minimal protocol overhead is required, such as bootstrapping devices and network equipment",
+
+  "handshake": {
+    "description": "TFTP does not establish a connection like TCP; instead, it uses request and acknowledgment messages over UDP.",
+    "steps": [
+      "Step 1: Client sends a Read Request (RRQ) or Write Request (WRQ) to the server on port 69.",
+      "Step 2: Server responds with an acknowledgment (ACK) or data packet (DATA).",
+      "Step 3: Client and server exchange DATA and ACK packets until the transfer is complete."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Opcode",
+      "type": "16-bit field",
+      "description": "Specifies the type of TFTP message (RRQ, WRQ, DATA, ACK, ERROR, OACK)"
+    },
+    {
+      "name": "Block Number",
+      "type": "16-bit field",
+      "description": "Used to order data packets and ensure reliable delivery"
+    },
+    {
+      "name": "Data",
+      "type": "Variable length",
+      "description": "File data being transferred, maximum 512 bytes per DATA packet (default)"
+    },
+    {
+      "name": "Error Code",
+      "type": "16-bit field",
+      "description": "Indicates the type of error in an ERROR packet"
+    },
+    {
+      "name": "Error Message",
+      "type": "Text string",
+      "description": "Descriptive message accompanying the ERROR packet"
+    },
+    {
+      "name": "Options (optional)",
+      "type": "Variable length",
+      "description": "Negotiated options such as block size or transfer timeout (RFC 2347)"
+    }
+  ],
+
+  "message": {
+    "unit": "TFTP packet",
+    "structure": {
+      "header": "Opcode, Block Number (if DATA/ACK), Error Code (if ERROR), Options (if OACK)",
+      "payload": "Data for DATA packets or message for ERROR packets"
+    }
+  },
+
+  "usage": [
+    "Bootstrapping network devices (e.g., routers, switches)",
+    "Transferring firmware or configuration files",
+    "Environments where simplicity and minimal overhead are critical"
+  ],
+
+  "pitfalls": [
+    "No authentication or encryption",
+    "Limited functionality (cannot list directories, no advanced commands)",
+    "Packet size limitation (default 512 bytes)",
+    "Relies on UDP, so packets can be lost or arrive out of order"
+  ]
+}

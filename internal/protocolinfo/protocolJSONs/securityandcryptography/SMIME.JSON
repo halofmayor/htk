@@ -1,0 +1,63 @@
+{
+  "name": "Secure/Multipurpose Internet Mail Extensions",
+  "shortName": "S/MIME",
+  "summary": "A standard for public key encryption and signing of MIME data, commonly used to secure email communications. S/MIME provides confidentiality, integrity, and authentication.",
+  "layer": "Application",
+  "ports": [],
+  "rfcs": ["RFC 5751"],
+
+  "purpose": "Secure email communications using digital signatures and encryption",
+
+  "handshake": {
+    "description": "S/MIME does not have a traditional handshake; security is applied per message using certificates and encryption.",
+    "steps": [
+      "Step 1: Sender obtains recipient's public certificate.",
+      "Step 2: Sender encrypts the email message using recipient's public key.",
+      "Step 3: Sender optionally signs the message with their private key.",
+      "Step 4: Recipient decrypts the message using their private key and verifies the signature using sender's public certificate."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Signed Data",
+      "type": "Variable length",
+      "description": "Contains the original message and the digital signature"
+    },
+    {
+      "name": "Encrypted Data",
+      "type": "Variable length",
+      "description": "Encrypted message content using recipient's public key"
+    },
+    {
+      "name": "Certificates",
+      "type": "Variable length",
+      "description": "Sender and/or recipient certificates used for signing or encryption"
+    },
+    {
+      "name": "Attributes",
+      "type": "Variable length",
+      "description": "Optional metadata such as signing time, message digest, or encryption algorithms"
+    }
+  ],
+
+  "message": {
+    "unit": "S/MIME message",
+    "structure": {
+      "header": "MIME headers with content type indicating S/MIME",
+      "payload": "SignedData, EncryptedData, Certificates, Attributes"
+    }
+  },
+
+  "usage": [
+    "Secure email delivery",
+    "Digital signatures for email authenticity",
+    "Confidentiality in corporate communications"
+  ],
+
+  "pitfalls": [
+    "Requires proper certificate management",
+    "Outdated encryption algorithms may be insecure",
+    "Message size increases due to encryption and signing overhead"
+  ]
+}

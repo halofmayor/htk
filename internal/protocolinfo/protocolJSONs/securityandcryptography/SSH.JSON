@@ -1,0 +1,64 @@
+{
+  "name": "Secure Shell",
+  "shortName": "SSH",
+  "summary": "A cryptographic network protocol for secure communication, remote login, and command execution over unsecured networks. SSH ensures confidentiality, integrity, and authentication.",
+  "layer": "Application",
+  "ports": [22],
+  "rfcs": ["RFC 4251–4254 (SSH-2.0)"],
+
+  "purpose": "Provide secure remote access and command execution, replacing insecure protocols like Telnet",
+
+  "handshake": {
+    "description": "SSH uses a key exchange and authentication handshake to establish a secure encrypted session.",
+    "steps": [
+      "Step 1: Client connects to SSH server on TCP port 22.",
+      "Step 2: Server sends its host key to the client.",
+      "Step 3: Client and server perform key exchange (e.g., Diffie-Hellman) to derive session keys.",
+      "Step 4: Client authenticates (password, public key, or other methods).",
+      "Step 5: Secure session established; encrypted communication begins."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Packet Type",
+      "type": "Byte",
+      "description": "Specifies the type of SSH message (key exchange, authentication, command, etc.)"
+    },
+    {
+      "name": "Payload",
+      "type": "Variable length",
+      "description": "Contains message-specific data, e.g., commands, authentication information, or session data"
+    },
+    {
+      "name": "Sequence Number",
+      "type": "Integer",
+      "description": "Ensures message ordering and integrity verification"
+    },
+    {
+      "name": "MAC / Signature",
+      "type": "Variable length",
+      "description": "Message Authentication Code for integrity and authentication"
+    }
+  ],
+
+  "message": {
+    "unit": "SSH packet",
+    "structure": {
+      "header": "Packet Type, Sequence Number",
+      "payload": "Encrypted message data and MAC"
+    }
+  },
+
+  "usage": [
+    "Remote login to Unix/Linux servers",
+    "Secure file transfer (SCP, SFTP)",
+    "Port forwarding and tunneling"
+  ],
+
+  "pitfalls": [
+    "Weak passwords or improperly stored private keys compromise security",
+    "Outdated versions may be vulnerable to attacks (e.g., SSH-1)",
+    "Requires proper key management for secure authentication"
+  ]
+}

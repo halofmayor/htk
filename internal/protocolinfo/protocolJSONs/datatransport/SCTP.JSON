@@ -1,0 +1,63 @@
+{
+  "name": "Stream Control Transmission Protocol",
+  "shortName": "SCTP",
+  "summary": "A transport layer protocol in the Internet protocol suite that provides reliable, connection-oriented, and message-oriented communication. It is designed to transport Public Switched Telephone Network (PSTN) signaling messages over IP networks, but is also used for other applications requiring reliable message delivery.",
+  "layer": "TCP/IP",
+  "ports": [],
+  "rfcs": ["RFC 4960", "RFC 3873", "RFC 6458"],
+
+  "purpose": "Provide reliable, message-oriented transport with multiple streams, multi-homing support, and protection against head-of-line blocking",
+
+  "handshake": {
+    "description": "SCTP uses a 4-way handshake to establish an association between endpoints, providing protection against SYN flooding attacks.",
+    "steps": [
+      "Step 1 (INIT): Initiating endpoint sends an INIT chunk to the peer to start association.",
+      "Step 2 (INIT-ACK): Receiving endpoint responds with an INIT-ACK chunk.",
+      "Step 3 (COOKIE-ECHO): Initiator sends a COOKIE-ECHO chunk to verify receipt of INIT-ACK.",
+      "Step 4 (COOKIE-ACK): Responder sends COOKIE-ACK to confirm the association is established."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Source Port",
+      "type": "16-bit field",
+      "description": "Port of the sending application"
+    },
+    {
+      "name": "Destination Port",
+      "type": "16-bit field",
+      "description": "Port of the receiving application"
+    },
+    {
+      "name": "Verification Tag",
+      "type": "32-bit field",
+      "description": "Used to verify that incoming packets belong to the correct SCTP association"
+    },
+    {
+      "name": "Checksum",
+      "type": "32-bit field",
+      "description": "CRC32c checksum for header and payload integrity"
+    }
+  ],
+
+  "message": {
+    "unit": "Chunk",
+    "structure": {
+      "header": "Source Port, Destination Port, Verification Tag, Checksum",
+      "payload": "SCTP chunks containing data or control information"
+    }
+  },
+
+  "usage": [
+    "Transport of telecommunication signaling messages over IP networks",
+    "Applications requiring reliable, ordered delivery of messages over multiple streams",
+    "Redundant multi-homed connections for failover scenarios"
+  ],
+
+  "pitfalls": [
+    "Higher overhead compared to TCP due to multi-stream and multi-homing support",
+    "Less widely supported in operating systems and network devices than TCP/UDP",
+    "No built-in encryption; requires additional layers (e.g., DTLS) for security"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "name": "Domain Name System",
+  "shortName": "DNS",
+  "summary": "A hierarchical and decentralized naming system for computers, services, or other resources connected to the Internet or a private network. DNS translates human-readable domain names into IP addresses.",
+  "layer": "Application",
+  "ports": [53],
+  "rfcs": ["RFC 1034", "RFC 1035"],
+
+  "purpose": "Translate domain names into IP addresses, enabling users to access websites and services using human-readable names",
+
+  "handshake": {
+    "description": "DNS is a query-response protocol over UDP or TCP. No handshake is required for UDP queries; TCP is used for zone transfers or large responses.",
+    "steps": [
+      "Step 1: Client sends a DNS query to the resolver on port 53 (usually UDP).",
+      "Step 2: Resolver queries authoritative servers recursively if needed.",
+      "Step 3: Resolver returns the response to the client, including IP addresses or error codes."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Transaction ID",
+      "type": "16-bit field",
+      "description": "Identifier for matching requests and responses"
+    },
+    {
+      "name": "Flags",
+      "type": "16-bit field",
+      "description": "Contains query/response flags, opcode, authoritative answer, recursion desired/available, etc."
+    },
+    {
+      "name": "Questions",
+      "type": "Variable length",
+      "description": "List of queries the client is asking"
+    },
+    {
+      "name": "Answers",
+      "type": "Variable length",
+      "description": "Resource records returned by the server"
+    },
+    {
+      "name": "Authority",
+      "type": "Variable length",
+      "description": "Resource records pointing to authoritative name servers"
+    },
+    {
+      "name": "Additional",
+      "type": "Variable length",
+      "description": "Optional resource records for additional information"
+    }
+  ],
+
+  "message": {
+    "unit": "DNS message",
+    "structure": {
+      "header": "Transaction ID, Flags, Question Count, Answer Count, Authority Count, Additional Count",
+      "payload": "Questions, Answers, Authority, Additional sections"
+    }
+  },
+
+  "usage": [
+    "Resolving domain names to IP addresses",
+    "Locating mail servers and other services via SRV records",
+    "Reverse DNS lookups"
+  ],
+
+  "pitfalls": [
+    "Vulnerable to spoofing and cache poisoning",
+    "No built-in encryption (use DNS over TLS or DNS over HTTPS for security)",
+    "Limited query size over UDP (512 bytes by default)"
+  ]
+}

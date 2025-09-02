@@ -1,0 +1,53 @@
+{
+  "name": "FTP Secure",
+  "shortName": "FTPS",
+  "summary": "An extension of FTP that adds support for TLS (or SSL) encryption to secure commands and data transfers between client and server.",
+  "layer": "Application",
+  "ports": [21, 990],
+  "rfcs": ["RFC 4217"],
+
+  "purpose": "Enable secure file transfer over a network, ensuring encryption and optional authentication of the communication",
+
+  "handshake": {
+    "description": "FTPS uses TLS/SSL handshake before sending FTP commands or transferring data to establish a secure channel.",
+    "steps": [
+      "Step 1: Client connects to server on port 21 (control connection) and initiates TLS handshake.",
+      "Step 2: TLS handshake completes, establishing encryption keys and authenticating server (and optionally client).",
+      "Step 3: Commands and responses are exchanged securely over the encrypted control connection.",
+      "Step 4: For file transfers, data connections are also encrypted using TLS."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Encrypted Command / Response",
+      "type": "TLS-encrypted ASCII text",
+      "description": "FTP commands and server responses encrypted using TLS/SSL"
+    },
+    {
+      "name": "Encrypted Data",
+      "type": "TLS-encrypted binary or ASCII",
+      "description": "File content transferred securely over encrypted data connection"
+    }
+  ],
+
+  "message": {
+    "unit": "FTPS message",
+    "structure": {
+      "header": "Encrypted Command / Response",
+      "payload": "Encrypted file data"
+    }
+  },
+
+  "usage": [
+    "Secure uploading and downloading of files",
+    "Website maintenance with encryption",
+    "File transfer over insecure networks"
+  ],
+
+  "pitfalls": [
+    "Requires TLS/SSL certificate management",
+    "Slightly higher overhead than plain FTP due to encryption",
+    "Complexity in firewall configuration for encrypted data connections"
+  ]
+}

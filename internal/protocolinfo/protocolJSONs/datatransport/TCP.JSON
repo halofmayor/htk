@@ -1,0 +1,90 @@
+{
+  "name": "Transmission Control Protocol",
+  "shortName": "TCP",
+  "summary": "One of the main protocols of the Internet protocol suite. It originated in the initial network implementation in which it complemented the Internet Protocol (IP). Therefore, the entire suite is commonly referred to as TCP/IP",
+  "layer": "TCP/IP",
+  "ports": [],
+  "rfcs": ["RFC 793", "RFC 1122", "RFC 1323", "RFC 2018", "RFC 3168", "RFC 5681", "RFC 9293"],
+
+  "purpose": "Provide reliable, ordered, and error-checked delivery of data between applications on a network",
+
+  "handshake": {
+    "description": "The TCP 3-way handshake is fundamental to establish a reliable connection between client and server before data transmission begins",
+    "steps": [
+      "Step 1 (SYN): The client wants to establish a connection with a server, so it sends a segment with SYN (Synchronize Sequence Number).",
+      "Step 2 (SYN + ACK): Server responds to the client's request with SYN-ACK.",
+      "Step 3 (ACK): The client acknowledges the server's response, and they both establish a reliable connection."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Source Port",
+      "type": "16-bit field",
+      "description": "Port of the sender"
+    },
+    {
+      "name": "Destination Port",
+      "type": "16-bit field",
+      "description": "Port of the receiver"
+    },
+    {
+      "name": "Sequence Number",
+      "type": "32-bit field",
+      "description": "Used to reassemble out-of-order segments"
+    },
+    {
+      "name": "Acknowledgement Number",
+      "type": "32-bit field",
+      "description": "Confirms received data"
+    },
+    {
+      "name": "Header Length (HLEN)",
+      "type": "4-bit field",
+      "description": "Indicates the header length in 32-bit words. Minimum value = 5 (20 bytes)."
+    },
+    {
+      "name": "Control Flags",
+      "type": "6-bit field",
+      "description": "Connection control flags: SYN, ACK, FIN, RST, PSH, URG"
+    },
+    {
+      "name": "Window Size",
+      "type": "16-bit field",
+      "description": "Size of the sender's receive window in bytes"
+    },
+    {
+      "name": "Checksum",
+      "type": "16-bit field",
+      "description": "Error-checking for header and payload"
+    },
+    {
+      "name": "Urgent Pointer",
+      "type": "16-bit field (valid if URG flag set)",
+      "description": "Points to data marked as urgent"
+    },
+    {
+      "name": "Options and Padding",
+      "type": "0–40 bytes field",
+      "description": "Optional fields that provide extra features (like timestamps or window scaling) and padding to align the header to a 32-bit boundary"
+    }
+  ],
+
+  "message": {
+    "unit": "Segment",
+    "structure": {
+      "header": "Source Port, Destination Port, Sequence Number, Acknowledgement Number, HLEN, Control Flags, Window Size, Checksum, Urgent Pointer, Options and Padding",
+      "payload": "TCP payload (data carried by TCP)"
+    }
+  },
+
+  "usage": [
+    "Major internet applications such as the World Wide Web, email, remote administration, file transfer and streaming media rely on TCP."
+  ],
+
+  "pitfalls": [
+    "No encryption or authentication by default",
+    "Vulnerable to attacks (DoS, connection hijacking, TCP reset)",
+    "High computational overhead and unpredictable latency"
+  ]
+}

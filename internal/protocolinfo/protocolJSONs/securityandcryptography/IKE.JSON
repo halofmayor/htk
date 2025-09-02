@@ -1,0 +1,63 @@
+{
+  "name": "Internet Key Exchange",
+  "shortName": "IKE",
+  "summary": "A protocol used to set up a secure, authenticated communication channel by establishing Security Associations (SAs) for IPsec. IKE negotiates cryptographic algorithms and exchanges keys.",
+  "layer": "Application / Network (used by IPsec)",
+  "ports": [500, 4500],
+  "rfcs": ["RFC 7296 (IKEv2)"],
+
+  "purpose": "Negotiate cryptographic keys and Security Associations for IPsec VPNs",
+
+  "handshake": {
+    "description": "IKE performs a multi-phase handshake to authenticate parties and establish keys for secure communication.",
+    "steps": [
+      "Step 1: IKE_SA_INIT – parties exchange nonces, supported cryptographic algorithms, and Diffie-Hellman public values.",
+      "Step 2: IKE_AUTH – parties authenticate each other (certificates, pre-shared keys) and establish the first IPsec SA.",
+      "Step 3: CREATE_CHILD_SA (optional) – additional IPsec SAs can be established for traffic channels.",
+      "Step 4: Rekeying and SA maintenance occurs as needed during the session."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Initiator/Responder Cookies",
+      "type": "8 bytes each",
+      "description": "Unique identifiers to prevent replay attacks and track sessions"
+    },
+    {
+      "name": "Security Association Payload",
+      "type": "Variable length",
+      "description": "Negotiates encryption, integrity, and key exchange algorithms"
+    },
+    {
+      "name": "Key Exchange Payload",
+      "type": "Variable length",
+      "description": "Contains Diffie-Hellman public values for key derivation"
+    },
+    {
+      "name": "Authentication Payload",
+      "type": "Variable length",
+      "description": "Contains certificates, digital signatures, or pre-shared key authentication data"
+    }
+  ],
+
+  "message": {
+    "unit": "IKE message",
+    "structure": {
+      "header": "Initiator and Responder Cookies, Message ID",
+      "payload": "SA, Key Exchange, and Authentication payloads"
+    }
+  },
+
+  "usage": [
+    "Establishing secure IPsec VPN tunnels",
+    "Automating key exchange and rekeying for encrypted communications",
+    "Ensuring mutual authentication between communicating IPsec endpoints"
+  ],
+
+  "pitfalls": [
+    "Requires careful configuration of algorithms and policies",
+    "NAT traversal may require additional handling (UDP encapsulation on port 4500)",
+    "Vulnerable to misconfiguration or weak pre-shared keys"
+  ]
+}

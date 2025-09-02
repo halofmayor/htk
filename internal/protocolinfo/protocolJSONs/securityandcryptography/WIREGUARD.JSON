@@ -1,0 +1,67 @@
+{
+  "name": "WireGuard",
+  "shortName": "WireGuard",
+  "summary": "A modern, simple, and fast VPN protocol that uses state-of-the-art cryptography to create secure point-to-point connections over the Internet.",
+  "layer": "Network / Transport",
+  "ports": [51820],
+  "rfcs": ["Protocol specification: https://www.wireguard.com/protocol/"],
+
+  "purpose": "Provide secure, lightweight VPN tunnels with strong cryptography and minimal overhead",
+
+  "handshake": {
+    "description": "WireGuard uses a Noise-based handshake for authentication and key agreement between peers.",
+    "steps": [
+      "Step 1: Peer A sends an Initiation message containing its public key and ephemeral key.",
+      "Step 2: Peer B responds with a Response message, providing its public key, ephemeral key, and encrypted session parameters.",
+      "Step 3: Both peers derive session keys and begin exchanging encrypted packets."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Message Type",
+      "type": "1 byte",
+      "description": "Indicates whether the message is Initiation, Response, or Transport data"
+    },
+    {
+      "name": "Public Key",
+      "type": "32 bytes",
+      "description": "The peer's long-term public key for authentication"
+    },
+    {
+      "name": "Ephemeral Key",
+      "type": "32 bytes",
+      "description": "Temporary key for perfect forward secrecy"
+    },
+    {
+      "name": "Encrypted Payload",
+      "type": "Variable length",
+      "description": "Encrypted VPN data"
+    },
+    {
+      "name": "MAC / Authentication Tag",
+      "type": "16 bytes",
+      "description": "Authenticates the packet to prevent tampering"
+    }
+  ],
+
+  "message": {
+    "unit": "WireGuard packet",
+    "structure": {
+      "header": "Message Type, Public Key, Ephemeral Key",
+      "payload": "Encrypted payload with authentication tag"
+    }
+  },
+
+  "usage": [
+    "Creating secure VPN tunnels",
+    "Private networks over the Internet",
+    "Low-latency, high-speed secure communications"
+  ],
+
+  "pitfalls": [
+    "Requires strict key management",
+    "Limited to point-to-point connections per interface",
+    "Not suitable for complex enterprise VPN topologies without additional management"
+  ]
+}

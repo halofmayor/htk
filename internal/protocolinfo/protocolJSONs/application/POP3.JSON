@@ -1,0 +1,53 @@
+{
+  "name": "Post Office Protocol version 3",
+  "shortName": "POP3",
+  "summary": "A protocol for retrieving email from a mail server to a client. POP3 downloads emails to the client and typically deletes them from the server.",
+  "layer": "Application",
+  "ports": [110, 995],
+  "rfcs": ["RFC 1939"],
+
+  "purpose": "Allow clients to download and manage email messages from a server, usually in a local inbox",
+
+  "handshake": {
+    "description": "POP3 establishes a TCP connection and authenticates the client before retrieving messages.",
+    "steps": [
+      "Step 1: Client connects to server (port 110 or 995 for POP3S).",
+      "Step 2: Server sends greeting (+OK).",
+      "Step 3: Client authenticates using USER and PASS commands.",
+      "Step 4: Client can list messages (LIST), retrieve messages (RETR), and delete messages (DELE).",
+      "Step 5: Client ends session with QUIT command."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Command / Response",
+      "type": "Text",
+      "description": "POP3 commands sent by client and server responses"
+    },
+    {
+      "name": "Email Data",
+      "type": "Text",
+      "description": "Message headers and body retrieved from server"
+    }
+  ],
+
+  "message": {
+    "unit": "POP3 transaction",
+    "structure": {
+      "header": "POP3 command or server response",
+      "payload": "Email headers and body"
+    }
+  },
+
+  "usage": [
+    "Downloading emails to local client",
+    "Offline email management"
+  ],
+
+  "pitfalls": [
+    "By default, emails are removed from server after download",
+    "No encryption unless using POP3S (port 995)",
+    "Limited support for server-side email management"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "Common Internet File System",
+  "shortName": "CIFS",
+  "summary": "A dialect of SMB designed for file sharing over the Internet. CIFS adds support for long filenames, larger file sizes, and enhanced features for networked file access.",
+  "layer": "Application",
+  "ports": [445, 139],
+  "rfcs": ["No specific RFC, defined as SMB dialect"],
+
+  "purpose": "Provide enhanced file sharing and networked resource access based on SMB protocol for wider Internet usage",
+
+  "handshake": {
+    "description": "CIFS follows the same handshake as SMB, including protocol negotiation and session establishment with authentication.",
+    "steps": [
+      "Step 1: Client connects to server on TCP port 445 (or 139 for NetBIOS).",
+      "Step 2: Client negotiates CIFS dialect with server.",
+      "Step 3: Authentication occurs (NTLM or Kerberos).",
+      "Step 4: Session is established; client can access files, directories, and other resources."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Command",
+      "type": "Binary",
+      "description": "Specifies CIFS operation (e.g., READ, WRITE, CREATE, DELETE, QUERY_INFO)"
+    },
+    {
+      "name": "Header",
+      "type": "Structure",
+      "description": "Contains session ID, message length, command code, flags, and other metadata"
+    },
+    {
+      "name": "Data",
+      "type": "Binary or text",
+      "description": "Payload for the requested operation"
+    },
+    {
+      "name": "Error / Status",
+      "type": "Integer",
+      "description": "Indicates success or failure of the command"
+    }
+  ],
+
+  "message": {
+    "unit": "CIFS message",
+    "structure": {
+      "header": "CIFS Header with session info and command",
+      "payload": "Command-specific data"
+    }
+  },
+
+  "usage": [
+    "File sharing across Windows networks",
+    "Networked access to files, directories, and printers",
+    "Remote file and resource management"
+  ],
+
+  "pitfalls": [
+    "Similar security concerns as SMB if improperly configured",
+    "Performance overhead for networked file operations",
+    "Requires proper firewall and authentication management"
+  ]
+}

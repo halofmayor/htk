@@ -1,0 +1,67 @@
+{
+  "name": "Remote Authentication Dial-In User Service",
+  "shortName": "RADIUS",
+  "summary": "A networking protocol that provides centralized Authentication, Authorization, and Accounting (AAA) management for users connecting to a network service.",
+  "layer": "Application",
+  "ports": [1812, 1813],
+  "rfcs": ["RFC 2865 (Authentication & Authorization)", "RFC 2866 (Accounting)"],
+
+  "purpose": "Authenticate users, authorize access, and account for network usage in centralized network environments",
+
+  "handshake": {
+    "description": "RADIUS uses a request-response model over UDP, with authentication and authorization handled through shared secrets and attribute-value pairs.",
+    "steps": [
+      "Step 1: Network Access Server (NAS) sends an Access-Request to the RADIUS server on UDP port 1812.",
+      "Step 2: RADIUS server validates credentials and returns Access-Accept, Access-Reject, or Access-Challenge.",
+      "Step 3: If accepted, accounting messages may be sent to the RADIUS server on UDP port 1813 for logging session details."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Code",
+      "type": "1 byte",
+      "description": "Indicates type of RADIUS message (Access-Request, Access-Accept, Access-Reject, Accounting-Request, etc.)"
+    },
+    {
+      "name": "Identifier",
+      "type": "1 byte",
+      "description": "Matches requests and responses"
+    },
+    {
+      "name": "Length",
+      "type": "2 bytes",
+      "description": "Specifies total message length in bytes"
+    },
+    {
+      "name": "Authenticator",
+      "type": "16 bytes",
+      "description": "Used for message integrity and authentication"
+    },
+    {
+      "name": "Attributes",
+      "type": "Variable length",
+      "description": "Attribute-Value pairs containing user credentials, network info, or accounting data"
+    }
+  ],
+
+  "message": {
+    "unit": "RADIUS packet",
+    "structure": {
+      "header": "Code, Identifier, Length, Authenticator",
+      "payload": "Attribute-Value pairs"
+    }
+  },
+
+  "usage": [
+    "User authentication for network access",
+    "Authorization of access privileges",
+    "Accounting of network usage for billing or auditing"
+  ],
+
+  "pitfalls": [
+    "Uses UDP, so messages can be lost; retransmissions needed",
+    "Shared secret must be securely configured",
+    "Limited encryption (passwords are hashed, not fully encrypted in older versions)"
+  ]
+}

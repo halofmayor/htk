@@ -1,0 +1,73 @@
+{
+  "name": "Simple Network Management Protocol",
+  "shortName": "SNMP",
+  "summary": "A protocol used for collecting and organizing information about managed devices on IP networks and for modifying that information to change device behavior. SNMP operates at the application layer.",
+  "layer": "Application",
+  "ports": [161, 162],
+  "rfcs": ["RFC 1157 (SNMPv1)", "RFC 1901–1908 (SNMPv2)", "RFC 3410–3418 (SNMPv3)"],
+
+  "purpose": "Monitor, manage, and configure network devices such as routers, switches, servers, and printers",
+
+  "handshake": {
+    "description": "SNMP uses a request-response model. No traditional handshake is required; communication occurs via GET, SET, and TRAP messages.",
+    "steps": [
+      "Step 1: Management station sends a request (GET or SET) to the agent on port 161.",
+      "Step 2: Agent processes the request and sends a response back to the management station.",
+      "Step 3: Agents can also send unsolicited TRAP messages to port 162 to notify the manager of events."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Version",
+      "type": "Integer",
+      "description": "Specifies the SNMP version (v1, v2c, v3)"
+    },
+    {
+      "name": "Community / Security Parameters",
+      "type": "Text or structure",
+      "description": "Community string for SNMPv1/v2c or security parameters for SNMPv3 (authentication, encryption)"
+    },
+    {
+      "name": "PDU Type",
+      "type": "Enumeration",
+      "description": "Specifies the type of message (GET, GETNEXT, SET, RESPONSE, TRAP)"
+    },
+    {
+      "name": "Request ID",
+      "type": "Integer",
+      "description": "Identifier to match requests and responses"
+    },
+    {
+      "name": "Variable Bindings",
+      "type": "List of OID and Value pairs",
+      "description": "Specifies the managed objects and their values"
+    },
+    {
+      "name": "Error Status / Index",
+      "type": "Integer",
+      "description": "Indicates success or type of error in response"
+    }
+  ],
+
+  "message": {
+    "unit": "SNMP PDU",
+    "structure": {
+      "header": "Version, Community/Security, PDU Type, Request ID",
+      "payload": "Variable bindings containing OID-value pairs, Error status/index"
+    }
+  },
+
+  "usage": [
+    "Monitoring network devices for performance and availability",
+    "Configuration of network device parameters remotely",
+    "Receiving notifications of events or failures via TRAP messages"
+  ],
+
+  "pitfalls": [
+    "SNMPv1 and v2c use plaintext community strings (insecure)",
+    "Limited security in older versions; SNMPv3 recommended for authentication and encryption",
+    "Can generate high network traffic in large deployments",
+    "Devices must support SNMP and be properly configured"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "Simple Mail Transfer Protocol",
+  "shortName": "SMTP",
+  "summary": "A protocol for sending email messages between servers or from a client to a mail server. SMTP operates at the application layer and relies on TCP for transport.",
+  "layer": "Application",
+  "ports": [25, 587, 465],
+  "rfcs": ["RFC 5321", "RFC 5322"],
+
+  "purpose": "Facilitate sending and routing of email messages over the Internet",
+
+  "handshake": {
+    "description": "SMTP establishes a TCP connection and exchanges commands and responses to send email.",
+    "steps": [
+      "Step 1: Client connects to server over TCP (usually port 25 or 587).",
+      "Step 2: Server sends a greeting (220).",
+      "Step 3: Client sends HELO/EHLO command to identify itself.",
+      "Step 4: Server acknowledges (250) and client can start sending MAIL FROM, RCPT TO, DATA commands.",
+      "Step 5: Client sends email content and ends with a period on a line by itself (CRLF.CRLF).",
+      "Step 6: Server responds with confirmation (250).",
+      "Step 7: Connection is closed with QUIT command."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Command / Response",
+      "type": "Text",
+      "description": "ASCII commands sent by client and responses from server"
+    },
+    {
+      "name": "Email Data",
+      "type": "Text",
+      "description": "Message headers and body sent via DATA command"
+    }
+  ],
+
+  "message": {
+    "unit": "SMTP message",
+    "structure": {
+      "header": "SMTP command or server response",
+      "payload": "Email headers and body (DATA command)"
+    }
+  },
+
+  "usage": [
+    "Sending email from client to mail server",
+    "Relaying email between mail servers"
+  ],
+
+  "pitfalls": [
+    "No encryption by default (use STARTTLS for security)",
+    "Limited authentication without extensions",
+    "Vulnerable to spam and spoofing without proper configuration"
+  ]
+}

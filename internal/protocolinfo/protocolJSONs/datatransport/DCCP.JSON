@@ -1,0 +1,74 @@
+{
+  "name": "Datagram Congestion Control Protocol",
+  "shortName": "DCCP",
+  "summary": "A transport layer protocol in the Internet protocol suite designed for applications that require reliable congestion control for datagram traffic, without providing full reliability or ordered delivery like TCP.",
+  "layer": "TCP/IP",
+  "ports": [],
+  "rfcs": ["RFC 4340", "RFC 5622"],
+
+  "purpose": "Provide a message-oriented, congestion-controlled transport mechanism for applications that need timely delivery without full reliability guarantees",
+
+  "handshake": {
+    "description": "DCCP uses a 4-way handshake to establish a connection and exchange initial sequence numbers and feature negotiation options.",
+    "steps": [
+      "Step 1 (Request): Client sends a request packet to the server with supported features.",
+      "Step 2 (Response): Server responds with an acknowledgement and its supported features.",
+      "Step 3 (Ack): Client acknowledges the server's response.",
+      "Step 4 (Confirm): Server confirms the acknowledgement and the connection is established."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Source Port",
+      "type": "16-bit field",
+      "description": "Port of the sending application"
+    },
+    {
+      "name": "Destination Port",
+      "type": "16-bit field",
+      "description": "Port of the receiving application"
+    },
+    {
+      "name": "Sequence Number",
+      "type": "24-bit or 48-bit field (depending on version)",
+      "description": "Used to order datagrams and detect loss"
+    },
+    {
+      "name": "Checksum",
+      "type": "16-bit field",
+      "description": "Used for error-checking of header and payload"
+    },
+    {
+      "name": "Reserved / Flags",
+      "type": "varies",
+      "description": "Control flags indicating packet type and features"
+    },
+    {
+      "name": "Options",
+      "type": "Variable length",
+      "description": "Negotiated features for congestion control, timestamps, etc."
+    }
+  ],
+
+  "message": {
+    "unit": "Datagram",
+    "structure": {
+      "header": "Source Port, Destination Port, Sequence Number, Checksum, Reserved/Flags, Options",
+      "payload": "DCCP payload (data carried by DCCP)"
+    }
+  },
+
+  "usage": [
+    "Streaming media applications that require timely delivery with congestion control",
+    "Telephony or video applications that prefer reduced latency over guaranteed delivery",
+    "Applications that need congestion control but do not require full reliability like TCP"
+  ],
+
+  "pitfalls": [
+    "Limited support in operating systems and network devices",
+    "No built-in ordering or full reliability",
+    "Requires additional security layers for encryption and authentication",
+    "Overhead higher than UDP due to congestion control mechanisms"
+  ]
+}

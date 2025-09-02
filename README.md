@@ -10,6 +10,12 @@ A wrapper written in Go for beginners in cybersecurity.
   htk whatport -h
   # or
   htk wp -h
+- `protocolinfo` or `pi` → Protocol information.  
+  For more details, use:  
+  ```bash
+  htk protocolinfo -h
+  # or
+  htk pi -h  
   
 > Please be patient, I'm working solo on this as a hobby/way to improve myself.  
 > It may take time to sharpen all tools and commands.

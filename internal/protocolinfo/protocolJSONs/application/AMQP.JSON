@@ -1,0 +1,63 @@
+{
+  "name": "Message Queuing Telemetry Transport",
+  "shortName": "MQTT",
+  "summary": "A lightweight, publish-subscribe network protocol that transports messages between devices. It is designed for low-bandwidth, high-latency, or unreliable networks, commonly used in IoT applications.",
+  "layer": "Application",
+  "ports": [1883, 8883],
+  "rfcs": ["OASIS MQTT Version 3.1.1", "OASIS MQTT Version 5.0"],
+
+  "purpose": "Enable efficient, reliable message exchange between devices and applications in IoT and other constrained environments",
+
+  "handshake": {
+    "description": "MQTT uses a TCP connection to establish a session between client and broker, followed by authentication and subscription/publication setup.",
+    "steps": [
+      "Step 1: Client establishes a TCP connection to the broker on port 1883 (or 8883 for TLS).",
+      "Step 2: Client sends CONNECT packet with client ID and optional authentication credentials.",
+      "Step 3: Broker responds with CONNACK acknowledging connection acceptance.",
+      "Step 4: Client subscribes to topics (SUBSCRIBE) or publishes messages (PUBLISH) to topics."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Packet Type",
+      "type": "4-bit field",
+      "description": "Specifies the MQTT message type (CONNECT, CONNACK, PUBLISH, SUBSCRIBE, etc.)"
+    },
+    {
+      "name": "Flags",
+      "type": "4-bit field",
+      "description": "Contains flags for DUP, QoS, RETAIN, etc., depending on packet type"
+    },
+    {
+      "name": "Remaining Length",
+      "type": "Variable length",
+      "description": "Indicates the size of the variable header and payload"
+    },
+    {
+      "name": "Payload",
+      "type": "Variable length",
+      "description": "Message-specific content such as topic name, message body, client ID"
+    }
+  ],
+
+  "message": {
+    "unit": "MQTT packet",
+    "structure": {
+      "header": "Packet Type, Flags, Remaining Length",
+      "payload": "Message content specific to packet type (topic, payload, QoS, etc.)"
+    }
+  },
+
+  "usage": [
+    "IoT device communication",
+    "Telemetry and sensor data transmission",
+    "Real-time messaging between applications with minimal bandwidth"
+  ],
+
+  "pitfalls": [
+    "Requires TCP connectivity; no built-in UDP support",
+    "QoS levels introduce complexity in ensuring delivery",
+    "Security must be provided via TLS and authentication mechanisms"
+  ]
+}

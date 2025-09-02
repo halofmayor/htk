@@ -1,0 +1,69 @@
+{
+  "name": "QUIC",
+  "shortName": "QUIC",
+  "summary": "A transport layer network protocol designed by Google that provides multiplexed connections over UDP with built-in security equivalent to TLS/SSL. QUIC aims to reduce connection and transport latency while improving congestion control and reliability.",
+  "layer": "TCP/IP (over UDP)",
+  "ports": [],
+  "rfcs": ["RFC 9000", "RFC 9001", "RFC 9002"],
+
+  "purpose": "Provide fast, reliable, secure, and multiplexed transport for web applications, reducing latency and connection setup overhead compared to TCP + TLS",
+
+  "handshake": {
+    "description": "QUIC uses a combined transport and cryptographic handshake to establish secure connections quickly. Initial packets negotiate connection IDs, versions, and perform TLS 1.3 key exchange.",
+    "steps": [
+      "Step 1: Client sends an Initial packet containing connection ID, version, and TLS 1.3 ClientHello.",
+      "Step 2: Server responds with Initial and Handshake packets containing TLS ServerHello and parameters.",
+      "Step 3: Client completes TLS handshake and sends Finished message.",
+      "Step 4: Server completes handshake, confirms connection establishment, and secure communication begins."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Source Connection ID",
+      "type": "Variable length",
+      "description": "Identifier chosen by the sender to distinguish connections"
+    },
+    {
+      "name": "Destination Connection ID",
+      "type": "Variable length",
+      "description": "Identifier chosen by the receiver to distinguish connections"
+    },
+    {
+      "name": "Packet Number",
+      "type": "Variable length",
+      "description": "Sequence number for packets, used for reliability and loss detection"
+    },
+    {
+      "name": "Payload",
+      "type": "Variable length",
+      "description": "Encrypted application data and control frames"
+    },
+    {
+      "name": "Header Flags",
+      "type": "Varies",
+      "description": "Flags indicating packet type, version, and presence of key frames"
+    }
+  ],
+
+  "message": {
+    "unit": "Packet",
+    "structure": {
+      "header": "Source Connection ID, Destination Connection ID, Packet Number, Header Flags",
+      "payload": "QUIC payload (encrypted application data and control frames)"
+    }
+  },
+
+  "usage": [
+    "Web browsing with HTTP/3 (QUIC replaces TCP + TLS for HTTP/3)",
+    "Low-latency streaming media",
+    "Real-time interactive applications like gaming or VoIP over QUIC"
+  ],
+
+  "pitfalls": [
+    "Requires UDP support on the network; may be blocked by firewalls",
+    "Less mature ecosystem compared to TCP",
+    "Encrypted headers make traffic inspection and debugging harder",
+    "Complexity higher than TCP/UDP due to multiplexing and integrated TLS"
+  ]
+}

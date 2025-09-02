@@ -1,0 +1,69 @@
+{
+  "name": "Network File System",
+  "shortName": "NFS",
+  "summary": "A distributed file system protocol that allows a client to access files over a network as if they were on local storage. NFS operates at the application layer and can use TCP or UDP for transport.",
+  "layer": "Application",
+  "ports": [2049],
+  "rfcs": ["RFC 1813 (NFSv3)", "RFC 7530 (NFSv4)"],
+
+  "purpose": "Enable clients to mount remote file systems and access files transparently over a network",
+
+  "handshake": {
+    "description": "NFS uses RPC (Remote Procedure Call) for communication. The handshake is implicit through RPC negotiation and authentication.",
+    "steps": [
+      "Step 1: Client establishes TCP or UDP connection to NFS server (port 2049).",
+      "Step 2: Client performs RPC calls to the server to negotiate version and authentication.",
+      "Step 3: Client mounts remote filesystem using MOUNT procedure.",
+      "Step 4: File operations (READ, WRITE, CREATE, DELETE, etc.) are performed via subsequent RPC calls."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Procedure Call",
+      "type": "RPC message",
+      "description": "Specifies the operation (READ, WRITE, CREATE, DELETE, etc.) and its parameters"
+    },
+    {
+      "name": "File Handle",
+      "type": "Opaque identifier",
+      "description": "Represents a reference to a file or directory on the NFS server"
+    },
+    {
+      "name": "Data",
+      "type": "Variable length",
+      "description": "Content of files being read or written"
+    },
+    {
+      "name": "Status / Error Code",
+      "type": "Integer",
+      "description": "Indicates success or failure of the RPC operation"
+    },
+    {
+      "name": "Attributes",
+      "type": "Structure",
+      "description": "Metadata about files (size, permissions, timestamps, etc.)"
+    }
+  ],
+
+  "message": {
+    "unit": "RPC message",
+    "structure": {
+      "header": "Procedure Call, File Handle, Attributes",
+      "payload": "Data for file read/write operations"
+    }
+  },
+
+  "usage": [
+    "Mounting remote filesystems in enterprise networks",
+    "Sharing files between Unix/Linux systems",
+    "Centralized storage and backup solutions"
+  ],
+
+  "pitfalls": [
+    "Requires proper authentication and access control (Kerberos recommended for NFSv4)",
+    "Performance can degrade over high-latency networks",
+    "Firewalls and NAT may require configuration for RPC traffic",
+    "UDP transport in older versions may lead to unreliable transfers"
+  ]
+}

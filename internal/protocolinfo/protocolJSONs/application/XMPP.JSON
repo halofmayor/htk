@@ -1,0 +1,60 @@
+{
+  "name": "Extensible Messaging and Presence Protocol",
+  "shortName": "XMPP",
+  "summary": "A communication protocol for message-oriented middleware based on XML. XMPP enables instant messaging, presence information, and contact list management over a network.",
+  "layer": "Application",
+  "ports": [5222, 5223],
+  "rfcs": ["RFC 6120", "RFC 6121", "RFC 6122"],
+
+  "purpose": "Facilitate real-time messaging, presence notification, and extensible communication between clients and servers",
+
+  "handshake": {
+    "description": "XMPP uses TCP with optional TLS. The handshake includes XML stream initiation, optional STARTTLS, and authentication.",
+    "steps": [
+      "Step 1: Client connects to XMPP server on TCP port 5222 (or 5223 for legacy SSL).",
+      "Step 2: Client and server exchange XML stream headers.",
+      "Step 3: Optional STARTTLS is used to upgrade connection to encrypted TLS.",
+      "Step 4: Client authenticates (SASL) and binds a resource.",
+      "Step 5: Client sends and receives XML stanzas for messaging, presence, and roster management."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Stanza Type",
+      "type": "XML element",
+      "description": "Specifies the type of message (message, presence, iq)"
+    },
+    {
+      "name": "Attributes",
+      "type": "XML attributes",
+      "description": "Contains metadata such as 'from', 'to', 'id', and 'type'"
+    },
+    {
+      "name": "Payload",
+      "type": "XML content",
+      "description": "Message body, presence status, or query data"
+    }
+  ],
+
+  "message": {
+    "unit": "XMPP stanza",
+    "structure": {
+      "header": "Stanza type and attributes",
+      "payload": "XML content specific to message, presence, or IQ"
+    }
+  },
+
+  "usage": [
+    "Instant messaging and presence notification",
+    "Collaboration applications",
+    "IoT messaging and pub-sub extensions (XMPP PubSub)"
+  ],
+
+  "pitfalls": [
+    "XML parsing can add overhead",
+    "Requires persistent TCP connection for real-time messaging",
+    "Security must be ensured via TLS and proper authentication",
+    "Server federation can be complex to configure"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "Server Message Block",
+  "shortName": "SMB",
+  "summary": "A network file sharing protocol that allows applications to read and write to files and request services from server programs in a computer network. SMB can also provide communication between processes.",
+  "layer": "Application",
+  "ports": [445, 139],
+  "rfcs": ["RFC 1001", "RFC 1002"],
+
+  "purpose": "Enable file, printer, and other resource sharing over a network",
+
+  "handshake": {
+    "description": "SMB establishes a session between client and server using a combination of TCP connection and protocol negotiation.",
+    "steps": [
+      "Step 1: Client connects to server on TCP port 445 (or 139 for NetBIOS over TCP).",
+      "Step 2: Client and server negotiate protocol dialect (version).",
+      "Step 3: Authentication occurs (can use NTLM, Kerberos, or other mechanisms).",
+      "Step 4: Session is established; client can request file operations, printer access, or inter-process communication."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "Command",
+      "type": "Binary",
+      "description": "Specifies SMB operation (e.g., READ, WRITE, OPEN, CLOSE, TREE_CONNECT)"
+    },
+    {
+      "name": "Header",
+      "type": "Structure",
+      "description": "Contains session ID, message length, command code, flags, and other metadata"
+    },
+    {
+      "name": "Data",
+      "type": "Binary or text",
+      "description": "Payload for the requested operation"
+    },
+    {
+      "name": "Error / Status",
+      "type": "Integer",
+      "description": "Indicates success or failure of the command"
+    }
+  ],
+
+  "message": {
+    "unit": "SMB message",
+    "structure": {
+      "header": "SMB Header with session info and command",
+      "payload": "Command-specific data"
+    }
+  },
+
+  "usage": [
+    "File sharing between Windows and Unix/Linux systems",
+    "Printer sharing",
+    "Inter-process communication over networks"
+  ],
+
+  "pitfalls": [
+    "Vulnerable to attacks if unauthenticated or exposed to untrusted networks",
+    "Performance overhead compared to local file access",
+    "Requires proper authentication and firewall configuration"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "Hypertext Transfer Protocol",
+  "shortName": "HTTP",
+  "summary": "An application layer protocol for distributed, collaborative, hypermedia information systems. It is the foundation of data communication for the World Wide Web.",
+  "layer": "Application",
+  "ports": [80],
+  "rfcs": ["RFC 2616", "RFC 7230", "RFC 7231"],
+
+  "purpose": "Enable the fetching of resources (HTML, images, scripts, etc.) over the web in a client-server model",
+
+  "handshake": {
+    "description": "HTTP is stateless and does not require a handshake for communication. Clients send requests and servers respond.",
+    "steps": []
+  },
+
+  "fields": [
+    {
+      "name": "Request Line / Status Line",
+      "type": "Text line",
+      "description": "Request Line for clients: METHOD URL HTTP/VERSION; Status Line for servers: HTTP/VERSION STATUS_CODE REASON_PHRASE"
+    },
+    {
+      "name": "Headers",
+      "type": "Text lines",
+      "description": "Key-value pairs that provide metadata about the request or response"
+    },
+    {
+      "name": "Body",
+      "type": "Optional content",
+      "description": "Payload of the request or response, may be empty for some methods"
+    }
+  ],
+
+  "message": {
+    "unit": "Message",
+    "structure": {
+      "header": "Request Line / Status Line, Headers",
+      "payload": "Body (optional)"
+    }
+  },
+
+  "usage": [
+    "Fetching web pages and resources",
+    "APIs based on REST",
+    "Client-server communications for web applications"
+  ],
+
+  "pitfalls": [
+    "Stateless: no built-in session handling (requires cookies or tokens)",
+    "Data transmitted in plain text unless layered with TLS",
+    "No built-in reliability beyond underlying transport (TCP)"
+  ]
+}

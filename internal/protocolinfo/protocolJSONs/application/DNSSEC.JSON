@@ -1,0 +1,64 @@
+{
+  "name": "Domain Name System Security Extensions",
+  "shortName": "DNSSEC",
+  "summary": "An extension to DNS that adds origin authentication, data integrity, and authenticated denial of existence using digital signatures. DNSSEC does not provide confidentiality.",
+  "layer": "Application",
+  "ports": [53],
+  "rfcs": ["RFC 4033", "RFC 4034", "RFC 4035"],
+
+  "purpose": "Secure DNS responses by enabling clients to verify the authenticity and integrity of DNS data",
+
+  "handshake": {
+    "description": "DNSSEC uses the same query-response mechanism as DNS but adds digital signatures for validation. No handshake is required.",
+    "steps": [
+      "Step 1: Client sends a DNS query for a domain with DNSSEC enabled.",
+      "Step 2: Resolver requests signed resource records from authoritative servers.",
+      "Step 3: Resolver validates the digital signatures against trusted keys (trust anchors).",
+      "Step 4: Resolver returns authenticated data to the client or indicates validation failure."
+    ]
+  },
+
+  "fields": [
+    {
+      "name": "RRSIG",
+      "type": "Resource Record",
+      "description": "Contains the digital signature of a DNS record set"
+    },
+    {
+      "name": "DNSKEY",
+      "type": "Resource Record",
+      "description": "Contains the public key used to verify RRSIGs"
+    },
+    {
+      "name": "DS (Delegation Signer)",
+      "type": "Resource Record",
+      "description": "Links a child zone's DNSKEY to its parent zone for chain of trust"
+    },
+    {
+      "name": "NSEC / NSEC3",
+      "type": "Resource Record",
+      "description": "Authenticated denial of existence for non-existent domain names"
+    }
+  ],
+
+  "message": {
+    "unit": "DNSSEC message",
+    "structure": {
+      "header": "Same as DNS header",
+      "payload": "DNS resource records with RRSIG, DNSKEY, DS, and optional NSEC/NSEC3 records for validation"
+    }
+  },
+
+  "usage": [
+    "Preventing DNS cache poisoning and spoofing",
+    "Authenticating the origin and integrity of DNS data",
+    "Securing critical domain name resolutions"
+  ],
+
+  "pitfalls": [
+    "Does not provide confidentiality (queries and responses are still visible)",
+    "Increases message size due to digital signatures",
+    "Requires proper key management and trust anchor configuration",
+    "Compatibility issues with non-DNSSEC-aware resolvers"
+  ]
+}

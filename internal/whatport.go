@@ -47,7 +47,7 @@ var ports = map[int][2]string{
 	1099: {"RMI Registry", ""},      // TCP
 }
 
-var helpText = `whatport is a tool that makes Port <-> Service lookup
+var helpTextWP = `whatport is a tool that makes Port <-> Service lookup
 
 whatport supports the following commands:
 
@@ -63,7 +63,7 @@ func WhatPort(query string) string {
 	parts := strings.Fields(query)
 
 	if len(parts) == 0 || parts[0] == "-h" || parts[0] == "--help" {
-		return helpText
+		return helpTextWP
 	}
 
 	index := -1
