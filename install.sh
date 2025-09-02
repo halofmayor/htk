@@ -6,7 +6,7 @@ set -e
 # -----------------------
 GITHUB_USER="halofmayor"
 REPO="htk"
-VERSION="v1.1-alpha"
+VERSION="v1.2-alpha"
 
 # Detect OS
 OS=$(uname -s)
