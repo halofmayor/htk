@@ -128,7 +128,8 @@ func ProtocolInfo(query string) string {
 		return fmt.Sprintf("Error: unknown protocol '%s'", protocolName)
 	}
 
-	filePath := fmt.Sprintf("protocolJSONs/%s/%s.JSON", category, strings.ToUpper(protocolName))
+	// Caminho correto para o embed.FS
+	filePath := fmt.Sprintf("protocolinfo/protocolJSONs/%s/%s.JSON", category, strings.ToUpper(protocolName))
 	data, err := protocolFiles.ReadFile(filePath)
 	if err != nil {
 		return fmt.Sprintf("Error reading embedded file %s: %v", filePath, err)
