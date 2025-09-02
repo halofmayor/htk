@@ -125,7 +125,7 @@ func ProtocolInfo(query string) string {
 		return fmt.Sprintf("Error: unknown protocol '%s'", protocolName)
 	}
 
-	fileName := fmt.Sprintf("protocolJSONs/%s/%s.JSON", category, strings.ToUpper(protocolName))
+	fileName := fmt.Sprintf("internal/protocolinfo/protocolJSONs/%s/%s.JSON", category, strings.ToUpper(protocolName))
 
 	data, err := os.ReadFile(fileName)
 	if err != nil {
